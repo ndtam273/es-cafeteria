@@ -1,8 +1,10 @@
+import 'package:es_cafeteria/constant.dart';
 import 'package:es_cafeteria/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'cart_item.dart';
+import 'default_button.dart';
 
 class Body extends StatefulWidget {
   @override
@@ -47,6 +49,13 @@ class _BodyState extends State<Body> {
                 quanity: 5,
                 name: "Sausage",
               ),
+              Padding(
+                padding: EdgeInsets.only(right: 30, left: 30),
+                child: DefaultButton(
+                  title: "Check Out",
+                  press: () {},
+                ),
+              )
             ],
           ),
         ),
