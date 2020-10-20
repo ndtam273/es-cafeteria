@@ -44,9 +44,10 @@ class CartItem extends StatelessWidget {
                           width: 1,
                         ),
                         borderRadius: BorderRadius.circular(8))),
-                Padding(
-                    padding: EdgeInsets.all(5.5),
-                    child: SvgPicture.asset("assets/icons/trash.svg"))
+                Positioned.fill(
+                    child: Align(
+                        alignment: Alignment.center,
+                        child: SvgPicture.asset("assets/icons/trash.svg")))
               ],
             ),
           ),
