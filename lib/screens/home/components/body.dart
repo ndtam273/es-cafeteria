@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:es_cafeteria/constant.dart';
 import 'package:es_cafeteria/dummy_data.dart';
 import 'package:es_cafeteria/models/item.dart';
@@ -26,6 +24,14 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+  _showCompleteDialog() {
+    showDialog(
+        context: context,
+        builder: (_) {
+          return _buildCompleteDialog();
+        });
+  }
+
   _showCheckOutDialog() {
     showDialog(
         context: context,
@@ -40,6 +46,46 @@ class _BodyState extends State<Body> {
         builder: (_) {
           return _buildAddCartDialog();
         });
+  }
+
+  Dialog _buildCompleteDialog() {
+    return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      elevation: 0.0,
+      backgroundColor: Colors.transparent,
+      child: Container(
+        width: 370,
+        height: 290,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8),
+          boxShadow: [
+            BoxShadow(
+                color: Colors.black26,
+                blurRadius: 10.0,
+                offset: const Offset(0.0, 10.0))
+          ],
+        ),
+        child: Padding(
+          padding:
+              const EdgeInsets.only(left: 30, right: 30, bottom: 29, top: 10),
+          child: Column(
+            children: [
+              SvgPicture.asset("assets/icons/completed.svg", height: 182),
+              SizedBox(
+                height: 20,
+              ),
+              DefaultButton(
+                title: "OK",
+                press: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Dialog _buildCheckoutDialog() {
@@ -66,8 +112,11 @@ class _BodyState extends State<Body> {
             children: [
               Text("Enter Your Password"),
               Text("(Input ES staff ID to checkout.)",
-                  style: TextStyle(fontWeight: FontWeight.bold, color: kGrayColor)),
-                  SizedBox(height: 20,),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: kGrayColor)),
+              SizedBox(
+                height: 20,
+              ),
               TextFormField(
                 textAlign: TextAlign.center,
                 obscureText: true,
@@ -78,10 +127,15 @@ class _BodyState extends State<Body> {
                       borderSide: BorderSide(color: kGrayColor)),
                 ),
               ),
-              SizedBox(height: 20,),
+              SizedBox(
+                height: 20,
+              ),
               DefaultButton(
                 title: "OK",
-                press: () {},
+                press: () {
+                  Navigator.pop(context);
+                  _showCompleteDialog();
+                },
               ),
             ],
           ),
@@ -126,12 +180,25 @@ class _BodyState extends State<Body> {
                     ),
                   ),
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Cola"),
+                      Text(
+                        "Cola",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Text("100.000"),
-                      OperatorButton(
-                        color: Colors.white,
-                        image: "assets/icons/tru.svg",
+                      SizedBox(
+                        height: 10,
+                      ),
+                      GestureDetector(
+                        onTap: () {},
+                        child: OperatorButton(
+                          color: Colors.white,
+                          image: "assets/icons/tru.svg",
+                        ),
                       ),
                     ],
                   ),
@@ -141,9 +208,12 @@ class _BodyState extends State<Body> {
                       fontSize: 48,
                     ),
                   ),
-                  OperatorButton(
-                    color: kPrimaryColor,
-                    image: "assets/icons/cong.svg",
+                  GestureDetector(
+                    onTap: () {},
+                    child: OperatorButton(
+                      color: kPrimaryColor,
+                      image: "assets/icons/cong.svg",
+                    ),
                   ),
                 ],
               ),
@@ -152,7 +222,9 @@ class _BodyState extends State<Body> {
               ),
               DefaultButton(
                 title: "OK",
-                press: () {},
+                press: () {
+                  Navigator.pop(context);
+                },
               )
             ],
           ),
