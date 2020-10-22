@@ -1,3 +1,4 @@
+import 'package:es_cafeteria/providers/items.dart';
 import 'package:provider/provider.dart';
 import 'package:es_cafeteria/constant.dart';
 import 'package:es_cafeteria/dummy_data.dart';
@@ -9,7 +10,7 @@ import 'package:flutter_svg/svg.dart';
 import '../../../constant.dart';
 
 import 'cart_item.dart';
-import 'control_panel.dart';
+
 import 'default_button.dart';
 import 'default_button.dart';
 
@@ -24,6 +25,8 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+  var _showFilteredItems = false;
+
   _showCompleteDialog() {
     showDialog(
         context: context,
@@ -40,14 +43,7 @@ class _BodyState extends State<Body> {
         });
   }
 
-  _showAddCartDialog() {
-    showDialog(
-        context: context,
-        builder: (_) {
-          return _buildAddCartDialog();
-        });
-  }
-
+  
   Dialog _buildCompleteDialog() {
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -144,99 +140,12 @@ class _BodyState extends State<Body> {
     );
   }
 
-  Dialog _buildAddCartDialog() {
-    return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      elevation: 0.0,
-      backgroundColor: Colors.transparent,
-      child: Container(
-        // padding: EdgeInsets.only(top: 16, bottom: 16, left: 16, right: 16),
-        width: 370,
-        height: 248,
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8),
-            boxShadow: [
-              BoxShadow(
-                  color: Colors.black26,
-                  blurRadius: 10.0,
-                  offset: const Offset(0.0, 10.0))
-            ]),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 29),
-          child: Column(
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image.asset(
-                      "assets/images/cola.jpg",
-                      fit: BoxFit.cover,
-                      width: 110,
-                      height: 110,
-                    ),
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Cola",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Text("100.000"),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      GestureDetector(
-                        onTap: () {},
-                        child: OperatorButton(
-                          color: Colors.white,
-                          image: "assets/icons/tru.svg",
-                        ),
-                      ),
-                    ],
-                  ),
-                  Text(
-                    "1",
-                    style: TextStyle(
-                      fontSize: 48,
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {},
-                    child: OperatorButton(
-                      color: kPrimaryColor,
-                      image: "assets/icons/cong.svg",
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              DefaultButton(
-                title: "OK",
-                press: () {
-                  Navigator.pop(context);
-                },
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+  
 
   @override
   Widget build(BuildContext context) {
-    // final itemsData = Provider.of<Items>(context);
-    // final items = itemsData.items;
+    final itemsData = Provider.of<Items>(context);
+
     var expanded = Expanded(
       flex: 4,
       child: Container(
@@ -246,10 +155,71 @@ class _BodyState extends State<Body> {
             Padding(
               padding: const EdgeInsets.only(
                   left: 30, right: 30, top: 40, bottom: 20),
-              child: ControlPanel(),
+              child: Row(
+                children: [
+                  FilterButton(
+                    title: "Food",
+                    icon: "assets/icons/snack 1.svg",
+                    press: () {
+                      itemsData.filterItems("Food");
+                      setState(() {
+                        _showFilteredItems = true;
+                      });
+                    },
+                  ),
+                  FilterButton(
+                    title: "Drink",
+                    icon: "assets/icons/alcohol 1.svg",
+                    press: () {
+                      itemsData.filterItems("Drink");
+                      setState(() {
+                        _showFilteredItems = true;
+                      });
+                    },
+                  ),
+                  FilterButton(
+                    title: "Others",
+                    icon: "assets/icons/alcohol 1.svg",
+                    press: () {
+                      itemsData.filterItems("Others");
+                      setState(() {
+                        _showFilteredItems = true;
+                      });
+                    },
+                    hasIcon: false,
+                  ),
+                  Spacer(),
+                  SizedBox(
+                    width: 130,
+                    height: 44,
+                    child: FlatButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        side: BorderSide(
+                          color: kGrayColor,
+                        ),
+                      ),
+                      color: Colors.transparent,
+                      textColor: kPrimaryColor,
+                      child: Text("Refresh"),
+                      onPressed: () {
+                        setState(() {
+                          _showFilteredItems = false;
+                        });
+                      },
+                    ),
+                  )
+                ],
+              ),
             ),
             Expanded(
-              child: ItemsGrid(),
+              child: _showFilteredItems
+                  ? ItemsGrid(
+                      displayItems: itemsData.filteredItems,
+                    )
+                  : ItemsGrid(
+                      displayItems: itemsData.items,
+                    ),
             ),
           ],
         ),

@@ -1,3 +1,4 @@
+import 'package:es_cafeteria/providers/item.dart';
 import 'package:es_cafeteria/providers/items.dart';
 import 'package:flutter/material.dart';
 
@@ -6,14 +7,15 @@ import 'item_grid_tile.dart';
 import 'package:provider/provider.dart';
 
 class ItemsGrid extends StatelessWidget {
+  final List<Item> displayItems;
   const ItemsGrid({
     Key key,
+    this.displayItems,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final itemsData = Provider.of<Items>(context);
-    final items = itemsData.items;
+    
     return GridView.builder(
       padding: EdgeInsets.symmetric(horizontal: 30),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -22,14 +24,14 @@ class ItemsGrid extends StatelessWidget {
         crossAxisSpacing: 20,
         mainAxisSpacing: 20,
       ),
-      itemCount: items.length,
+      itemCount: displayItems.length,
       itemBuilder: (ctx, i) => ItemGridTile(
-        id: items[i].id,
-        img: items[i].img,
-        name: items[i].name,
-        price: items[i].price,
-        stock: items[i].stock,
-        itemType: items[i].itemType,
+        id: displayItems[i].id,
+        img: displayItems[i].img,
+        name: displayItems[i].name,
+        price: displayItems[i].price,
+        stock: displayItems[i].stock,
+        itemType: displayItems[i].itemType,
       ),
     );
   }
