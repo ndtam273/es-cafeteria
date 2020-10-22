@@ -1,12 +1,25 @@
-import 'package:es_cafeteria/models/item.dart';
+import 'package:es_cafeteria/providers/item.dart';
+import 'package:es_cafeteria/providers/items.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ItemGridTile extends StatelessWidget {
-  final Item itemData;
-  const ItemGridTile({
-    Key key,
-    this.itemData,
-  }) : super(key: key);
+  final String id;
+  final String name;
+  final double price;
+  int stock;
+  final String img;
+  final String itemType;
+
+  ItemGridTile(
+      {Key key,
+      this.id,
+      this.name,
+      this.price,
+      this.img,
+      this.itemType,
+      this.stock})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +27,7 @@ class ItemGridTile extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(10),
           child: Image.asset(
-            itemData.img,
+            img,
             fit: BoxFit.cover,
           ),
         ),
@@ -29,18 +42,18 @@ class ItemGridTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                itemData.name,
+                name,
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               Row(
                 children: [
                   Text(
-                    "${itemData.price} Đ",
+                    "$price Đ",
                     style: TextStyle(color: Colors.grey),
                   ),
                   Spacer(),
                   Text(
-                    "Còn: #${itemData.stock}",
+                    "Còn: #$stock",
                     style: TextStyle(color: Colors.grey),
                   ),
                 ],

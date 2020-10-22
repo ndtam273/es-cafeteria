@@ -1,21 +1,25 @@
+import 'package:es_cafeteria/providers/items.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
 class FilterButton extends StatelessWidget {
   final String title;
-  final Function press;
   final String icon;
   final bool hasIcon;
+  final String filterKey;
   const FilterButton({
     Key key,
     this.title,
-    this.press,
     this.icon,
     this.hasIcon = true,
+    this.filterKey,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var itemsData = Provider.of<Items>(context);
+
     return Padding(
       padding: const EdgeInsets.only(left: 10),
       child: SizedBox(
@@ -24,7 +28,9 @@ class FilterButton extends StatelessWidget {
         child: FlatButton(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            onPressed: press,
+            onPressed: () {
+              itemsData.filterItems(filterKey);
+            },
             color: Colors.white,
             child: Row(
               mainAxisAlignment: hasIcon

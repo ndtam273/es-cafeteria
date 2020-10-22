@@ -1,21 +1,21 @@
+import 'package:provider/provider.dart';
 import 'package:es_cafeteria/constant.dart';
 import 'package:es_cafeteria/dummy_data.dart';
-import 'package:es_cafeteria/models/item.dart';
+import 'package:es_cafeteria/providers/item.dart';
 import 'package:es_cafeteria/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../constant.dart';
-import '../../../constant.dart';
-import '../../../constant.dart';
-import '../../../constant.dart';
-import '../../../constant.dart';
+
 import 'cart_item.dart';
+import 'control_panel.dart';
 import 'default_button.dart';
 import 'default_button.dart';
-import 'default_button.dart';
+
 import 'filter_button.dart';
 import 'item_grid_tile.dart';
+import 'items_grid.dart';
 import 'operator_button.dart';
 
 class Body extends StatefulWidget {
@@ -235,78 +235,29 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
+    // final itemsData = Provider.of<Items>(context);
+    // final items = itemsData.items;
+    var expanded = Expanded(
+      flex: 4,
+      child: Container(
+        color: kGrayBackgroundColor,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(
+                  left: 30, right: 30, top: 40, bottom: 20),
+              child: ControlPanel(),
+            ),
+            Expanded(
+              child: ItemsGrid(),
+            ),
+          ],
+        ),
+      ),
+    );
     return Row(
       children: [
-        Expanded(
-          flex: 4,
-          child: Container(
-            color: kGrayBackgroundColor,
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 30, right: 30, top: 40, bottom: 20),
-                  child: Row(
-                    children: [
-                      FilterButton(
-                        title: "Food",
-                        icon: "assets/icons/snack 1.svg",
-                        press: () {},
-                      ),
-                      FilterButton(
-                        title: "Drink",
-                        icon: "assets/icons/alcohol 1.svg",
-                        press: () {},
-                      ),
-                      FilterButton(
-                        title: "Others",
-                        press: () {},
-                        icon: "assets/icons/alcohol 1.svg",
-                        hasIcon: false,
-                      ),
-                      Spacer(),
-                      SizedBox(
-                        width: 130,
-                        height: 44,
-                        child: FlatButton(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            side: BorderSide(
-                              color: kGrayColor,
-                            ),
-                          ),
-                          color: Colors.transparent,
-                          textColor: kPrimaryColor,
-                          child: Text("Refresh"),
-                          onPressed: () {},
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: GridView(
-                    padding: EdgeInsets.symmetric(horizontal: 30),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 4,
-                      childAspectRatio: 18 / 22,
-                      crossAxisSpacing: 20,
-                      mainAxisSpacing: 20,
-                    ),
-                    children: DUMMY_ITEMS.map((itemData) {
-                      return GestureDetector(
-                        onTap: _showAddCartDialog,
-                        child: ItemGridTile(
-                          itemData: itemData,
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+        expanded,
         Expanded(
           flex: 1,
           child: Padding(
