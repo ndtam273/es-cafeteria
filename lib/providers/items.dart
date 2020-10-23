@@ -10,7 +10,7 @@ class Items with ChangeNotifier {
     Item(
       id: "i1",
       name: "Cola",
-      price: 100.000,
+      price: 100000,
       stock: 5,
       img: "assets/images/cola.jpg",
       itemType: "Drink",
@@ -18,7 +18,7 @@ class Items with ChangeNotifier {
     Item(
       id: "i1",
       name: "Cola",
-      price: 100.000,
+      price: 100000,
       stock: 5,
       img: "assets/images/cola.jpg",
       itemType: "Drink",
@@ -26,7 +26,7 @@ class Items with ChangeNotifier {
     Item(
       id: "i1",
       name: "Cola",
-      price: 100.000,
+      price: 100000,
       stock: 5,
       img: "assets/images/cola.jpg",
       itemType: "Drink",
@@ -34,14 +34,14 @@ class Items with ChangeNotifier {
     Item(
         id: "i2",
         name: "Xuc xich",
-        price: 150.000,
+        price: 150000,
         stock: 5,
         img: "assets/images/xucxich.jpg",
         itemType: "Food"),
     Item(
       id: "i2",
       name: "Xuc xich",
-      price: 150.000,
+      price: 150000,
       stock: 5,
       img: "assets/images/xucxich.jpg",
       itemType: "Food",

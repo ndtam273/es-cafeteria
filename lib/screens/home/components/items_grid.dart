@@ -15,24 +15,24 @@ class ItemsGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     return GridView.builder(
-      padding: EdgeInsets.symmetric(horizontal: 30),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 4,
-        childAspectRatio: 18 / 22,
-        crossAxisSpacing: 20,
-        mainAxisSpacing: 20,
-      ),
-      itemCount: displayItems.length,
-      itemBuilder: (ctx, i) => ItemGridTile(
-        id: displayItems[i].id,
-        img: displayItems[i].img,
-        name: displayItems[i].name,
-        price: displayItems[i].price,
-        stock: displayItems[i].stock,
-        itemType: displayItems[i].itemType,
-      ),
-    );
+        padding: EdgeInsets.symmetric(horizontal: 30),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 4,
+          childAspectRatio: 18 / 22,
+          crossAxisSpacing: 20,
+          mainAxisSpacing: 20,
+        ),
+        itemCount: displayItems.length,
+        itemBuilder: (ctx, i) {
+          return ItemGridTile(
+            id: displayItems[i].id,
+            img: displayItems[i].img,
+            name: displayItems[i].name,
+            price: displayItems[i].price,
+            stock: displayItems[i].stock,
+            itemType: displayItems[i].itemType,
+          );
+        });
   }
 }

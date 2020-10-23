@@ -19,7 +19,7 @@ class Item with ChangeNotifier {
       this.img,
       this.itemType});
 
-  subtractItem(int quantity) {
+  void subtractItem(int quantity) {
     stock = stock - quantity;
     notifyListeners();
   }
