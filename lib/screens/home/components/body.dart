@@ -1,3 +1,4 @@
+import 'package:es_cafeteria/providers/cart.dart';
 import 'package:es_cafeteria/providers/items.dart';
 import 'package:provider/provider.dart';
 import 'package:es_cafeteria/constant.dart';
@@ -9,7 +10,7 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../../constant.dart';
 
-import 'cart_item.dart';
+import 'cart_item.dart' as CI;
 
 import 'default_button.dart';
 import 'default_button.dart';
@@ -43,7 +44,6 @@ class _BodyState extends State<Body> {
         });
   }
 
-  
   Dialog _buildCompleteDialog() {
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -140,11 +140,10 @@ class _BodyState extends State<Body> {
     );
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
     final itemsData = Provider.of<Items>(context);
+    final cartData = Provider.of<Cart>(context).cartitems;
 
     var expanded = Expanded(
       flex: 4,
@@ -247,15 +246,17 @@ class _BodyState extends State<Body> {
                     ),
                   ],
                 ),
-                CartItem(
-                  image: "assets/images/cola.jpg",
-                  quanity: 1,
-                  name: "Cola",
-                ),
-                CartItem(
-                  image: "assets/images/xucxich.jpg",
-                  quanity: 5,
-                  name: "Sausage",
+                Expanded(
+                  child: ListView.builder(
+                    itemBuilder: (ctx, index) {
+                      return CI.CartItem(
+                        // image: cartData[index].id,
+                        name: cartData[index].title,
+                        quanity: cartData[index].quantity,
+                      );
+                    },
+                    itemCount: cartData.length,
+                  ),
                 ),
                 Spacer(),
                 DefaultButton(title: "Check Out", press: _showCheckOutDialog),

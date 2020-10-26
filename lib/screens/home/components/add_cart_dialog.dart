@@ -1,5 +1,6 @@
 import 'package:es_cafeteria/providers/cart.dart';
 import 'package:es_cafeteria/providers/item.dart';
+import 'package:es_cafeteria/providers/items.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../constant.dart';
@@ -11,8 +12,9 @@ class AddCartDialog extends StatefulWidget {
   final String img;
   final double price;
   final int stock;
+  final String id;
 
-  AddCartDialog({Key key, this.name, this.img, this.price, this.stock})
+  AddCartDialog({Key key, this.name, this.img, this.price, this.stock, this.id})
       : super(key: key);
   @override
   _AddCartDialogState createState() => _AddCartDialogState();
@@ -23,7 +25,7 @@ class _AddCartDialogState extends State<AddCartDialog> {
 
   Widget build(BuildContext context) {
     final cartData = Provider.of<Cart>(context);
-    final itemData = Provider.of<Item>(context);
+    final itemsData = Provider.of<Items>(context);
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       elevation: 0.0,
@@ -115,8 +117,17 @@ class _AddCartDialogState extends State<AddCartDialog> {
                 title: "OK",
                 press: () {
                   cartData.addItem(
-                      itemData.id, itemData.price, itemData.name, quantity);
-                  itemData.subtractItem(quantity);
+                      widget.id, widget.price, widget.name, quantity);
+                  itemsData.updateItem(
+                    widget.id,
+                    Item(
+                        id: widget.id,
+                        name: widget.name,
+                        price: widget.price,
+                        stock: widget.stock - quantity,
+                        img: widget.img),
+                  );
+
                   Navigator.pop(context);
                 },
               )

@@ -42,6 +42,7 @@ class _ItemGridTileState extends State<ItemGridTile> {
               name: widget.name,
               price: widget.price,
               stock: widget.stock,
+              id: widget.id,
             );
           });
     }

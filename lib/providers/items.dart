@@ -16,7 +16,7 @@ class Items with ChangeNotifier {
       itemType: "Drink",
     ),
     Item(
-      id: "i1",
+      id: "i2",
       name: "Cola",
       price: 100000,
       stock: 5,
@@ -24,7 +24,7 @@ class Items with ChangeNotifier {
       itemType: "Drink",
     ),
     Item(
-      id: "i1",
+      id: "i3",
       name: "Cola",
       price: 100000,
       stock: 5,
@@ -32,14 +32,14 @@ class Items with ChangeNotifier {
       itemType: "Drink",
     ),
     Item(
-        id: "i2",
+        id: "i4",
         name: "Xuc xich",
         price: 150000,
         stock: 5,
         img: "assets/images/xucxich.jpg",
         itemType: "Food"),
     Item(
-      id: "i2",
+      id: "i5",
       name: "Xuc xich",
       price: 150000,
       stock: 5,
@@ -55,5 +55,13 @@ class Items with ChangeNotifier {
 
   void filterItems(String filterKey) {
     filteredItems = _items.where((item) => item.itemType == filterKey).toList();
+  }
+
+  void updateItem(String itemId, Item newItem) {
+    final itemIndex = _items.indexWhere((it) => it.id == itemId);
+    if (itemIndex >= 0) {
+      _items[itemIndex] = newItem;
+      notifyListeners();
+    }
   }
 }

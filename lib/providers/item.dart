@@ -18,9 +18,4 @@ class Item with ChangeNotifier {
       @required this.stock,
       this.img,
       this.itemType});
-
-  void subtractItem(int quantity) {
-    stock = stock - quantity;
-    notifyListeners();
-  }
 }
