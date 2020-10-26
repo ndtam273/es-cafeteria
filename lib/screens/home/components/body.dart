@@ -64,11 +64,11 @@ class _BodyState extends State<Body> {
         ),
         child: Padding(
           padding:
-              const EdgeInsets.only(left: 30, right: 30, bottom: 29, top: 10),
+               EdgeInsets.only(left: getProportionateScreenWidth(30), right: getProportionateScreenWidth(30), bottom: getProportionateScreenHeight(29), top: getProportionateScreenHeight(10)),
           child: Column(
             children: [
               SvgPicture.asset("assets/icons/completed.svg",
-                  height: getProportionateScreenHeight(182)),
+                  height: getProportionateScreenHeight(160)),
               SizedBox(
                 height: getProportionateScreenHeight(30),
               ),
@@ -92,7 +92,7 @@ class _BodyState extends State<Body> {
       backgroundColor: Colors.transparent,
       child: Container(
         width: getProportionateScreenWidth(370),
-        height: getProportionateScreenHeight(223),
+        height: getProportionateScreenHeight(248),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(8),
@@ -104,29 +104,32 @@ class _BodyState extends State<Body> {
           ],
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 29),
+          padding:  EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(30), vertical: getProportionateScreenHeight(29)),
           child: Column(
             children: [
-              const Text(
+               Text(
                 "Enter Your Password",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: getProportionateScreenHeight(16), fontWeight: FontWeight.bold),
               ),
-              const Text("(Input ES staff ID to checkout.)",
+               Text("(Input ES staff ID to checkout.)",
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: kGrayColor,
-                      fontSize: 16)),
+                      fontSize: getProportionateScreenHeight(14))),
               SizedBox(
                 height: getProportionateScreenHeight(20),
               ),
-              TextFormField(
-                textAlign: TextAlign.center,
-                obscureText: true,
-                decoration: InputDecoration(
-                  hintText: "*******",
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5),
-                      borderSide: BorderSide(color: kGrayColor)),
+              Container(
+                height: getProportionateScreenHeight(60),
+                child: TextFormField(
+                  textAlign: TextAlign.center,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    hintText: "*******",
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5),
+                        borderSide: BorderSide(color: kGrayColor)),
+                  ),
                 ),
               ),
               SizedBox(
@@ -205,7 +208,7 @@ class _BodyState extends State<Body> {
                   Spacer(),
                   SizedBox(
                     width: getProportionateScreenWidth(130),
-                    height: 44,
+                    height: getProportionateScreenHeight(44),
                     child: FlatButton(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
@@ -295,10 +298,10 @@ class _BodyState extends State<Body> {
                 ),
                 Row(
                   children: [
-                    const Text(
+                     Text(
                       "Total: ",
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: getProportionateScreenHeight(16)),
                     ),
                     Text(
                       cartData.totalItem.toString(),

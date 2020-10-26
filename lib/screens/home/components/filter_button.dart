@@ -45,7 +45,7 @@ class FilterButton extends StatelessWidget {
                 ),
                 Text(
                   title,
-                  style: TextStyle(fontSize: getProportionateScreenWidth(16)),
+                  style: TextStyle(fontSize: getProportionateScreenWidth(14)),
                 )
               ],
             )),
