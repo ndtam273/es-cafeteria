@@ -64,4 +64,12 @@ class Items with ChangeNotifier {
       notifyListeners();
     }
   }
+
+  void reStockSingleItem(String itemId, int reStock) {
+    final itemIndex = _items.indexWhere((element) => element.id == itemId);
+    if (itemIndex >= 0) {
+      _items[itemIndex].stock += reStock;
+      notifyListeners();
+    }
+  }
 }

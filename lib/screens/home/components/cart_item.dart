@@ -1,13 +1,21 @@
 import 'package:es_cafeteria/constant.dart';
+import 'package:es_cafeteria/providers/cart.dart';
+import 'package:es_cafeteria/providers/items.dart';
+import 'package:es_cafeteria/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
 class CartItem extends StatelessWidget {
+  final String id;
+  final String itemId;
   final int quanity;
   final String image;
   final String name;
   const CartItem({
     Key key,
+    this.itemId,
+    this.id,
     this.quanity,
     this.image,
     this.name,
@@ -15,29 +23,40 @@ class CartItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cartData = Provider.of<Cart>(context);
+    final itemsData = Provider.of<Items>(context);
     return Padding(
-      padding: const EdgeInsets.only(top: 20),
+      padding: EdgeInsets.only(top: getProportionateScreenHeight(20)),
       child: Row(
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(8.0),
             child: Image.asset(
               image,
-              height: 30,
-              width: 30,
+              height: getProportionateScreenHeight(30),
+              width: getProportionateScreenWidth(30),
             ),
           ),
-          Text("$quanity x $name"),
+          Flexible(
+            child: Text(
+              "$quanity x $name",
+              // overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: getProportionateScreenWidth(16)),
+            ),
+          ),
           Spacer(),
           GestureDetector(
             onTap: () {
-              print("abcde");
+              cartData.removeItem(itemId);
+              itemsData.reStockSingleItem(itemId, quanity);
             },
             child: Stack(
               children: [
                 Container(
-                    width: 30,
-                    height: 30,
+                    width: getProportionateScreenWidth(30),
+                    height: getProportionateScreenWidth(30),
                     decoration: BoxDecoration(
                         border: Border.all(
                           color: kGrayColor,
@@ -47,7 +66,10 @@ class CartItem extends StatelessWidget {
                 Positioned.fill(
                     child: Align(
                         alignment: Alignment.center,
-                        child: SvgPicture.asset("assets/icons/trash.svg")))
+                        child: SvgPicture.asset(
+                          "assets/icons/trash.svg",
+                          height: getProportionateScreenHeight(17),
+                        )))
               ],
             ),
           ),

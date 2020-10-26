@@ -1,3 +1,4 @@
+import 'package:es_cafeteria/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -7,7 +8,9 @@ class OperatorButton extends StatelessWidget {
   final String image;
   final Color color;
   const OperatorButton({
-    Key key, this.image, this.color,
+    Key key,
+    this.image,
+    this.color,
   }) : super(key: key);
 
   @override
@@ -15,8 +18,8 @@ class OperatorButton extends StatelessWidget {
     return Stack(
       children: [
         Container(
-            width: 50,
-            height: 50,
+            width: getProportionateScreenWidth(50),
+            height: getProportionateScreenWidth(50),
             decoration: BoxDecoration(
                 color: color,
                 border: Border.all(

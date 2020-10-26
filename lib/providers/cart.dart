@@ -2,15 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
 class CartItem {
-  // final String id;
+  final String id;
   final String title;
+  final String img;
   final int quantity;
-  final double price;
+  final int price;
 
   CartItem(
-    // @required this.id, 
-  @required this.title, @required this.quantity,
-      @required this.price);
+      {@required this.id,
+      @required this.title,
+      @required this.quantity,
+      @required this.price,
+      @required this.img});
 }
 
 class Cart with ChangeNotifier {
@@ -24,28 +27,43 @@ class Cart with ChangeNotifier {
     return _cartItems.length;
   }
 
-  double get totalAmount {
-    var total = 0.0;
+  int get totalItem {
+    var total = 0;
+    _cartItems.forEach((key, cartItem) {
+      total += cartItem.quantity;
+    });
+    return total;
+  }
+
+  int get totalAmount {
+    var total = 0;
     _cartItems.forEach((key, cartItem) {
       total += cartItem.price * cartItem.quantity;
     });
     return total;
   }
 
-  void addItem(String itemId, double price, String title, int quantity) {
+  void addItem(
+      String itemId, int price, String title, int quantity, String img) {
     if (_cartItems.containsKey(itemId)) {
       _cartItems.update(
           itemId,
           (existingCartItem) => CartItem(
-              // existingCartItem.id,
-              existingCartItem.title,
-              existingCartItem.quantity + quantity,
-              existingCartItem.price));
+              id: existingCartItem.id,
+              title: existingCartItem.title,
+              quantity: existingCartItem.quantity + quantity,
+              price: existingCartItem.price,
+              img: existingCartItem.img));
     } else {
-      _cartItems.putIfAbsent(itemId,
+      _cartItems.putIfAbsent(
+          itemId,
           () => CartItem(
-            // DateTime.now().toString(), 
-          title, quantity, price));
+                id: DateTime.now().toString(),
+                title: title,
+                quantity: quantity,
+                price: price,
+                img: img,
+              ));
     }
     notifyListeners();
   }

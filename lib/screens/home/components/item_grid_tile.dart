@@ -1,6 +1,7 @@
 import 'package:es_cafeteria/providers/item.dart';
 import 'package:es_cafeteria/providers/items.dart';
 import 'package:es_cafeteria/screens/home/components/add_cart_dialog.dart';
+import 'package:es_cafeteria/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -11,7 +12,7 @@ import 'operator_button.dart';
 class ItemGridTile extends StatefulWidget {
   final String id;
   final String name;
-  final double price;
+  final int price;
   int stock;
   final String img;
   final String itemType;
@@ -33,6 +34,7 @@ class ItemGridTile extends StatefulWidget {
 class _ItemGridTileState extends State<ItemGridTile> {
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     _showAddCartDialog() {
       showDialog(
           context: context,
@@ -69,18 +71,24 @@ class _ItemGridTileState extends State<ItemGridTile> {
               children: [
                 Text(
                   widget.name,
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: getProportionateScreenWidth(16)),
                 ),
                 Row(
                   children: [
                     Text(
                       "${widget.price} Đ",
-                      style: TextStyle(color: Colors.grey),
+                      style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: getProportionateScreenWidth(11)),
                     ),
                     Spacer(),
                     Text(
                       "Còn: #${widget.stock}",
-                      style: TextStyle(color: Colors.grey),
+                      style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: getProportionateScreenWidth(11)),
                     ),
                   ],
                 )

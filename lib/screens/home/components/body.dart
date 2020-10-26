@@ -50,8 +50,8 @@ class _BodyState extends State<Body> {
       elevation: 0.0,
       backgroundColor: Colors.transparent,
       child: Container(
-        width: 370,
-        height: 290,
+        width: getProportionateScreenWidth(370),
+        height: getProportionateScreenHeight(290),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(8),
@@ -67,9 +67,10 @@ class _BodyState extends State<Body> {
               const EdgeInsets.only(left: 30, right: 30, bottom: 29, top: 10),
           child: Column(
             children: [
-              SvgPicture.asset("assets/icons/completed.svg", height: 182),
+              SvgPicture.asset("assets/icons/completed.svg",
+                  height: getProportionateScreenHeight(182)),
               SizedBox(
-                height: 20,
+                height: getProportionateScreenHeight(30),
               ),
               DefaultButton(
                 title: "OK",
@@ -90,8 +91,8 @@ class _BodyState extends State<Body> {
       elevation: 0.0,
       backgroundColor: Colors.transparent,
       child: Container(
-        width: 370,
-        height: 248,
+        width: getProportionateScreenWidth(370),
+        height: getProportionateScreenHeight(223),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(8),
@@ -106,12 +107,17 @@ class _BodyState extends State<Body> {
           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 29),
           child: Column(
             children: [
-              Text("Enter Your Password"),
-              Text("(Input ES staff ID to checkout.)",
+              const Text(
+                "Enter Your Password",
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              const Text("(Input ES staff ID to checkout.)",
                   style: TextStyle(
-                      fontWeight: FontWeight.bold, color: kGrayColor)),
+                      fontWeight: FontWeight.bold,
+                      color: kGrayColor,
+                      fontSize: 16)),
               SizedBox(
-                height: 20,
+                height: getProportionateScreenHeight(20),
               ),
               TextFormField(
                 textAlign: TextAlign.center,
@@ -124,7 +130,7 @@ class _BodyState extends State<Body> {
                 ),
               ),
               SizedBox(
-                height: 20,
+                height: getProportionateScreenHeight(30),
               ),
               DefaultButton(
                 title: "OK",
@@ -143,17 +149,26 @@ class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     final itemsData = Provider.of<Items>(context);
-    final cartData = Provider.of<Cart>(context).cartitems;
+    final cartItems = Provider.of<Cart>(context).cartitems;
+    final cartData = Provider.of<Cart>(context);
 
     var expanded = Expanded(
       flex: 4,
       child: Container(
-        color: kGrayBackgroundColor,
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+                color: Colors.black26,
+                blurRadius: 2,
+                offset: const Offset(0.0, 10.0))
+          ],
+          color: kGrayBackgroundColor,
+        ),
         child: Column(
           children: [
             Padding(
               padding: const EdgeInsets.only(
-                  left: 30, right: 30, top: 40, bottom: 20),
+                  left: 30, right: 30, top: 20, bottom: 20),
               child: Row(
                 children: [
                   FilterButton(
@@ -189,7 +204,7 @@ class _BodyState extends State<Body> {
                   ),
                   Spacer(),
                   SizedBox(
-                    width: 130,
+                    width: getProportionateScreenWidth(130),
                     height: 44,
                     child: FlatButton(
                       shape: RoundedRectangleBorder(
@@ -200,7 +215,9 @@ class _BodyState extends State<Body> {
                       ),
                       color: Colors.transparent,
                       textColor: kPrimaryColor,
-                      child: Text("Refresh"),
+                      child: Text("Refresh",
+                          style: TextStyle(
+                              fontSize: getProportionateScreenWidth(18))),
                       onPressed: () {
                         setState(() {
                           _showFilteredItems = false;
@@ -230,36 +247,96 @@ class _BodyState extends State<Body> {
         Expanded(
           flex: 1,
           child: Padding(
-            padding: EdgeInsets.only(left: 10, right: 10, top: 50, bottom: 30),
+            padding: EdgeInsets.only(left: 20, right: 20, top: 30, bottom: 20),
             child: Column(
               children: [
                 Row(
                   children: [
-                    SvgPicture.asset("assets/icons/cart.svg"),
-                    SizedBox(
-                      width: 20,
+                    SvgPicture.asset(
+                      "assets/icons/cart.svg",
+                      height: getProportionateScreenWidth(28),
                     ),
-                    Text(
+                    SizedBox(
+                      width: getProportionateScreenWidth(20),
+                    ),
+                    const Text(
                       "Cart",
                       style: TextStyle(
-                          color: kPrimaryColor, fontWeight: FontWeight.bold),
+                          color: kPrimaryColor,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16),
                     ),
                   ],
                 ),
-                Expanded(
-                  child: ListView.builder(
-                    itemBuilder: (ctx, index) {
-                      return CI.CartItem(
-                        // image: cartData[index].id,
-                        name: cartData[index].title,
-                        quanity: cartData[index].quantity,
-                      );
-                    },
-                    itemCount: cartData.length,
+                SingleChildScrollView(
+                  child: Container(
+                    height: SizeConfig.screenHeight * 0.5,
+                    child: ListView.builder(
+                      itemBuilder: (ctx, index) {
+                        return CI.CartItem(
+                          id: cartItems.values.toList()[index].id,
+                          itemId: cartItems.keys.toList()[index],
+                          image: cartItems.values.toList()[index].img,
+                          name: cartItems.values.toList()[index].title,
+                          quanity: cartItems.values.toList()[index].quantity,
+                        );
+                      },
+                      itemCount: cartItems.length,
+                    ),
                   ),
                 ),
                 Spacer(),
-                DefaultButton(title: "Check Out", press: _showCheckOutDialog),
+                Divider(
+                  thickness: 1,
+                  color: kGrayColor,
+                ),
+                SizedBox(
+                  height: getProportionateScreenHeight(10),
+                ),
+                Row(
+                  children: [
+                    const Text(
+                      "Total: ",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
+                    Text(
+                      cartData.totalItem.toString(),
+                      style:
+                          TextStyle(fontSize: getProportionateScreenWidth(16)),
+                    ),
+                    cartData.totalItem > 1
+                        ? Text(
+                            " Products",
+                            style: TextStyle(
+                                fontSize: getProportionateScreenWidth(16)),
+                          )
+                        : Text(
+                            " Product",
+                            style: TextStyle(
+                                fontSize: getProportionateScreenWidth(16)),
+                          ),
+                  ],
+                ),
+                SizedBox(
+                  height: getProportionateScreenHeight(10),
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    "${cartData.totalAmount.toString()} Đ",
+                    style: TextStyle(
+                        fontSize: getProportionateScreenWidth(20),
+                        color: kPrimaryColor),
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+                SizedBox(
+                  height: getProportionateScreenHeight(10),
+                ),
+                DefaultButton(
+                    title: "Check Out",
+                    press: cartItems.length > 0 ? _showCheckOutDialog : () {}),
               ],
             ),
           ),

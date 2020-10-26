@@ -1,6 +1,7 @@
 import 'package:es_cafeteria/providers/cart.dart';
 import 'package:es_cafeteria/providers/item.dart';
 import 'package:es_cafeteria/providers/items.dart';
+import 'package:es_cafeteria/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../constant.dart';
@@ -10,7 +11,7 @@ import 'operator_button.dart';
 class AddCartDialog extends StatefulWidget {
   final String name;
   final String img;
-  final double price;
+  final int price;
   final int stock;
   final String id;
 
@@ -32,8 +33,8 @@ class _AddCartDialogState extends State<AddCartDialog> {
       backgroundColor: Colors.transparent,
       child: Container(
         // padding: EdgeInsets.only(top: 16, bottom: 16, left: 16, right: 16),
-        width: 370,
-        height: 248,
+        width: getProportionateScreenWidth(370),
+        height: getProportionateScreenHeight(268),
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(8),
@@ -44,7 +45,9 @@ class _AddCartDialogState extends State<AddCartDialog> {
                   offset: const Offset(0.0, 10.0))
             ]),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 29),
+          padding: EdgeInsets.symmetric(
+              horizontal: getProportionateScreenWidth(30),
+              vertical: getProportionateScreenHeight(29)),
           child: Column(
             children: [
               Row(
@@ -56,8 +59,8 @@ class _AddCartDialogState extends State<AddCartDialog> {
                     child: Image.asset(
                       widget.img,
                       fit: BoxFit.cover,
-                      width: 110,
-                      height: 110,
+                      width: getProportionateScreenWidth(110),
+                      height: getProportionateScreenHeight(110),
                     ),
                   ),
                   Column(
@@ -68,11 +71,11 @@ class _AddCartDialogState extends State<AddCartDialog> {
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                       SizedBox(
-                        height: 10,
+                        height: getProportionateScreenHeight(10),
                       ),
                       Text(widget.price.toString()),
                       SizedBox(
-                        height: 10,
+                        height: getProportionateScreenHeight(10),
                       ),
                       GestureDetector(
                         onTap: () {
@@ -92,7 +95,7 @@ class _AddCartDialogState extends State<AddCartDialog> {
                   Text(
                     quantity.toString(),
                     style: TextStyle(
-                      fontSize: 48,
+                      fontSize: getProportionateScreenWidth(48),
                     ),
                   ),
                   GestureDetector(
@@ -111,25 +114,27 @@ class _AddCartDialogState extends State<AddCartDialog> {
                 ],
               ),
               SizedBox(
-                height: 30,
+                height: getProportionateScreenHeight(40),
               ),
               DefaultButton(
-                title: "OK",
-                press: () {
-                  cartData.addItem(
-                      widget.id, widget.price, widget.name, quantity);
-                  itemsData.updateItem(
-                    widget.id,
-                    Item(
-                        id: widget.id,
-                        name: widget.name,
-                        price: widget.price,
-                        stock: widget.stock - quantity,
-                        img: widget.img),
-                  );
+                title: widget.stock > 0 ? "OK" : "Out of stock",
+                press: widget.stock > 0
+                    ? () {
+                        cartData.addItem(widget.id, widget.price, widget.name,
+                            quantity, widget.img);
+                        itemsData.updateItem(
+                          widget.id,
+                          Item(
+                              id: widget.id,
+                              name: widget.name,
+                              price: widget.price,
+                              stock: widget.stock - quantity,
+                              img: widget.img),
+                        );
 
-                  Navigator.pop(context);
-                },
+                        Navigator.pop(context);
+                      }
+                    : () {},
               )
             ],
           ),

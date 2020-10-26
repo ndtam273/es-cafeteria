@@ -1,4 +1,5 @@
 import 'package:es_cafeteria/providers/items.dart';
+import 'package:es_cafeteria/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -13,16 +14,18 @@ class DefaultButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return SizedBox(
       width: double.infinity,
-      height: 44,
+      height: getProportionateScreenHeight(44),
       child: FlatButton(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         onPressed: press,
         color: kPrimaryColor,
         child: Text(
           title,
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              color: Colors.white, fontSize: getProportionateScreenWidth(18)),
         ),
       ),
     );

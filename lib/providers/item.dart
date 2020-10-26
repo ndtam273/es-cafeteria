@@ -6,7 +6,7 @@ enum itemTypes { food, drink, others }
 class Item with ChangeNotifier {
   final String id;
   final String name;
-  final double price;
+  final int price;
   int stock;
   final String img;
   final String itemType;
